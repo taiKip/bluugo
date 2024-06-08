@@ -1,0 +1,9 @@
+version: '1.0'
+
+services:
+  web:
+    image: nginx:alpine
+    ports:
+      - "3002:80"
+    volumes:
+      - ./apps/client/src:/usr/share/nginx/html:ro
