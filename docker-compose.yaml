@@ -1,9 +1,30 @@
-version: '1.0'
 
 services:
-  web:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    # volumes:
+    #   - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  client:
     image: nginx:alpine
     ports:
       - "3002:80"
     volumes:
       - ./apps/client/src:/usr/share/nginx/html:ro
+  server:
+    build:
+      context: ./apps/server
+    ports:
+      - 8080:8080
+    depends_on:
+      db:
+        condition: service_healthy

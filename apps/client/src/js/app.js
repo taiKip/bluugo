@@ -153,7 +153,7 @@ async function fetchData() {
 
     const data = await response.json();
     state.fetchedData = data;
-    return data;
+    return [];
   } catch (error) {
     console.error("There was a problem with the fetch operation:", error);
     state.error = error;
