@@ -1,4 +1,4 @@
-package com.tarus.server.vehicle;
+package com.tarus.server.car;
 
 import com.tarus.server.entitity.BaseEntity;
 import com.tarus.server.reason.Reason;
@@ -20,7 +20,7 @@ public class Car extends BaseEntity {
     private String make;
     private String model;
     private String rejectionPercentage;
-    @OneToMany(mappedBy = "vehicle",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "car",cascade = CascadeType.ALL,orphanRemoval = true)
     private Set<Reason> reasons;
 
 
