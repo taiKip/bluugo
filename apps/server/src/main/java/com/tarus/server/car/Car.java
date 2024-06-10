@@ -1,7 +1,5 @@
-package com.tarus.server.vehicle;
+package com.tarus.server.car;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tarus.server.entitity.BaseEntity;
 import com.tarus.server.reason.Reason;
 import jakarta.persistence.*;
@@ -17,12 +15,12 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Vehicle extends BaseEntity {
+public class Car extends BaseEntity {
     private int year;
     private String make;
     private String model;
     private String rejectionPercentage;
-    @OneToMany(mappedBy = "vehicle",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy ="car",cascade = CascadeType.ALL,orphanRemoval = true)
     private Set<Reason> reasons;
 
 
