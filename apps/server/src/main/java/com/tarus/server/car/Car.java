@@ -1,5 +1,7 @@
 package com.tarus.server.car;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tarus.server.entitity.BaseEntity;
 import com.tarus.server.reason.Reason;
 import jakarta.persistence.*;

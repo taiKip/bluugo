@@ -145,15 +145,17 @@ function hideSubmitButton() {
 async function fetchData() {
   try {
     state.loading = true;
-    const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+    const response = await fetch("http://localhost:8080/api/v1/vehicles");
 
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
 
     const data = await response.json();
+    console.log("HELLO")
     state.fetchedData = data;
-    return [];
+    console.log("DATA::" ,data)
+    return data;
   } catch (error) {
     console.error("There was a problem with the fetch operation:", error);
     state.error = error;
@@ -166,7 +168,9 @@ async function fetchData() {
 window.onload = async () => {
   const data = await fetchData();
   if (data) {
-    data.forEach(renderTable);
+   // data.forEach(renderTable);
+   console.log("HELLO WORLD")
+   console.log(data)
   }
 };
 
