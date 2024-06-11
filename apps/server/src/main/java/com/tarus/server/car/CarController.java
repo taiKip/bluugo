@@ -2,27 +2,25 @@ package com.tarus.server.car;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
 @RestController
+@RequestMapping("api/v1/cars")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3002")
-@RequestMapping("api/v1/vehicles")
 public class CarController {
     private final CarService carService;
-    @GetMapping
-    public ResponseEntity<CarDto> getVehicles() {
-        return ResponseEntity.ok(new CarDto("Toyota","Black"));
-    }
 
-    @PostMapping
-    public ResponseEntity saveVehicles(@RequestParam(value=  "files") MultipartFile[] files) throws IOException {
+    @PostMapping("upload")
+    public ResponseEntity<String> uploadCarData(@RequestParam(value = "files") MultipartFile[] files) throws IOException {
         for (MultipartFile file : files) {
-           return ResponseEntity.ok( carService.saveJsonFile(file));
+            carService.uploadCarData(file);
         }
-        return null;
+        return ResponseEntity.ok("Saved");
     }
 }

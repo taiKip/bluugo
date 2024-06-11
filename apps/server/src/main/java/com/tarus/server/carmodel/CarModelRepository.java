@@ -1,8 +1,8 @@
-package com.tarus.server.car;
+package com.tarus.server.carmodel;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CarRepository extends JpaRepository<Car,Long> {
+public interface CarModelRepository extends JpaRepository<CarModel,Long> {
 }

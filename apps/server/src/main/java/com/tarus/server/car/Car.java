@@ -1,29 +1,74 @@
 package com.tarus.server.car;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.tarus.server.entitity.BaseEntity;
-import com.tarus.server.reason.Reason;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.Set;
-
-@Entity
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class Car extends BaseEntity {
-    private int year;
+public class Car {
+    @JsonProperty("model_year")
+    private int modelYear;
     private String make;
     private String model;
+    @JsonProperty("rejection_percentage")
     private String rejectionPercentage;
-    @OneToMany(mappedBy ="car",cascade = CascadeType.ALL,orphanRemoval = true)
-    private Set<Reason> reasons;
+    @JsonProperty("reason_1")
+    private String reason1;
+    @JsonProperty("reason_2")
+    private String reason2;
+    @JsonProperty("reason_3")
+    private String reason3;
 
+    public int getModelYear() {
+        return modelYear;
+    }
 
+    public void setModelYear(int modelYear) {
+        this.modelYear = modelYear;
+    }
+
+    public String getMake() {
+        return make;
+    }
+
+    public void setMake(String make) {
+        this.make = make;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String getRejectionPercentage() {
+        return rejectionPercentage;
+    }
+
+    public void setRejectionPercentage(String rejectionPercentage) {
+        this.rejectionPercentage = rejectionPercentage;
+    }
+
+    public String getReason1() {
+        return reason1;
+    }
+
+    public void setReason1(String reason1) {
+        this.reason1 = reason1;
+    }
+
+    public String getReason2() {
+        return reason2;
+    }
+
+    public void setReason2(String reason2) {
+        this.reason2 = reason2;
+    }
+
+    public String getReason3() {
+        return reason3;
+    }
+
+    public void setReason3(String reason3) {
+        this.reason3 = reason3;
+    }
 }
