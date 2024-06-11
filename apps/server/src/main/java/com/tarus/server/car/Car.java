@@ -28,7 +28,7 @@ public class Car {
         return make;
     }
 
-    public void setMake(String make) {
+    public void setMake() {
         this.make = make;
     }
 

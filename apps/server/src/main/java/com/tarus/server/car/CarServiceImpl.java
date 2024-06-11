@@ -40,9 +40,22 @@ public class CarServiceImpl implements CarService {
     public void uploadCarData(MultipartFile file) throws IOException {
 
         List<Car> data = jsonUtil.parseJSONFile(file);
-
+        log.info("DATA", data.toString());
     }
-public void saveCarData(List<Car> carList){
 
-}
+    public void saveCarData(List<Car> carList) {
+for(Car car:carList ){
+    CarModel carModel = carModelRepository.findByMakeAndModel(car.getMake(),car.getModel());
+    if(carModel==null){
+        carModel = new CarModel();
+        carModel.setModel(car.getModel());
+        carModel.setMake(car.getMake());
+        carModel = carModelRepository.save(carModel);
+    }
+
+    YearlyRejectionStat yearlyRejectionStat  = new YearlyRejectionStat();
+    yearlyRejectionStat.setCarModel(carModel);
+
+        }
+    }
 }

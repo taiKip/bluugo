@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RejectionReasonController {
     private final RejectionReasonService service;
     @PostMapping
-    public ResponseEntity<RejectionReason> saveReason(@RequestBody RejectionReason reason){
+    public ResponseEntity<RejectionReason> saveRejectionReason(@RequestBody RejectionReason reason){
         return  ResponseEntity.ok(service.saveReason(reason));
     }
 }
