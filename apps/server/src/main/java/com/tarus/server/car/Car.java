@@ -1,7 +1,9 @@
 package com.tarus.server.car;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
+@Data
 public class Car {
     @JsonProperty("model_year")
     private int modelYear;
@@ -28,8 +30,8 @@ public class Car {
         return make;
     }
 
-    public void setMake() {
-        this.make = make;
+    public void setMake(String make) {
+        this.make = this.make;
     }
 
     public String getModel() {

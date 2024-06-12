@@ -17,7 +17,8 @@ public class CarController {
     private final CarService carService;
 
     @PostMapping("upload")
-    public ResponseEntity<String> uploadCarData(@RequestParam(value = "files") MultipartFile[] files) throws IOException {
+    public ResponseEntity<String> uploadCarData(
+            @RequestParam(value = "files") MultipartFile[] files) throws IOException {
         for (MultipartFile file : files) {
             carService.uploadCarData(file);
         }

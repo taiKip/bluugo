@@ -18,7 +18,7 @@ import java.util.Set;
 @Table(name = "yearly_rejection_stats")
 public class YearlyRejectionStat extends BaseEntity {
     @Column(name = "rejection_percentage",nullable = false)
-    private String rejectionPercentage;
+    private Double rejectionPercentage;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_model_id",nullable = false)
     private CarModel carModel;

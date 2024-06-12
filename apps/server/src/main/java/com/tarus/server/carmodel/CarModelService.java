@@ -7,5 +7,5 @@ import org.springframework.stereotype.Service;
 public interface CarModelService {
 
 
-   CarModel saveCarModel(CarModelDto carModelDto);
+   CarModel findOrSaveCarModel(CarModelDto carModelDto);
 }

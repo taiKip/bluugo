@@ -15,6 +15,6 @@ public class CarModelController {
     @PostMapping
     public ResponseEntity<CarModel> saveCarModel(@RequestBody CarModelDto carModelDto) {
 
-       return ResponseEntity.ok(modelService.saveCarModel(carModelDto));
+       return ResponseEntity.ok(modelService.findOrSaveCarModel(carModelDto));
     }
 }

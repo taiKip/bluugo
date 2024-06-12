@@ -1,25 +1,23 @@
 package com.tarus.server.car;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tarus.server.carmodel.CarModel;
-import com.tarus.server.carmodel.CarModelRepository;
-import com.tarus.server.dto.JsonDto;
+import com.tarus.server.carmodel.CarModelDto;
+import com.tarus.server.carmodel.CarModelService;
 import com.tarus.server.rejectionreason.RejectionReason;
 import com.tarus.server.rejectionreason.RejectionReasonRepository;
 import com.tarus.server.rejectionreason.RejectionReasonService;
-import com.tarus.server.utility.JsonUtil;
+import com.tarus.server.util.JsonUtil;
 import com.tarus.server.yearlyrejectionstat.YearlyRejectionStat;
 import com.tarus.server.yearlyrejectionstat.YearlyRejectionStatRepository;
-import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -30,32 +28,46 @@ public class CarServiceImpl implements CarService {
     @Autowired
     private JsonUtil jsonUtil;
     @Autowired
-    private CarModelRepository carModelRepository;
+    private CarModelService carModelService;
     @Autowired
     private RejectionReasonService reasonService;
     @Autowired
     private YearlyRejectionStatRepository yearlyRejectionStatRepository;
+    @Autowired
+    private RejectionReasonRepository rejectionReasonRepository;
 
     @Override
     public void uploadCarData(MultipartFile file) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+   // var data =     jsonUtil.parseJSONFile(file);
+List<Car>  data=    objectMapper.readValue(file.getInputStream(), new TypeReference<List<Car>>() {
+        });
+saveCarData(data);
 
-        List<Car> data = jsonUtil.parseJSONFile(file);
-        log.info("DATA", data.toString());
     }
 
     public void saveCarData(List<Car> carList) {
-for(Car car:carList ){
-    CarModel carModel = carModelRepository.findByMakeAndModel(car.getMake(),car.getModel());
-    if(carModel==null){
-        carModel = new CarModel();
-        carModel.setModel(car.getModel());
-        carModel.setMake(car.getMake());
-        carModel = carModelRepository.save(carModel);
-    }
+for(var car:carList ){
+    CarModel carModel = carModelService.findOrSaveCarModel(new CarModelDto(car.getModel(),car.getMake()));
 
     YearlyRejectionStat yearlyRejectionStat  = new YearlyRejectionStat();
     yearlyRejectionStat.setCarModel(carModel);
+    yearlyRejectionStat
+            .setRejectionPercentage(
+                    Double.parseDouble(
+                            car.getRejectionPercentage().replace(',','.')));
+    yearlyRejectionStat = yearlyRejectionStatRepository.save(yearlyRejectionStat);
+reasonService.SaveAllRejectionReasons(
+        List.of(
+                reasonService.createRejectionReason(car.getReason1(),yearlyRejectionStat),
+                reasonService.createRejectionReason(car.getReason1(),yearlyRejectionStat),
+                reasonService.createRejectionReason(car.getReason1(),yearlyRejectionStat)
+        )
+);
+
 
         }
     }
+
+
 }

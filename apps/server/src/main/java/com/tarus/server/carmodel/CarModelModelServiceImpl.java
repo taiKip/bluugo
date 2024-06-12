@@ -1,12 +1,6 @@
 package com.tarus.server.carmodel;
-
-import lombok.RequiredArgsConstructor;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 
 @Service
@@ -15,7 +9,7 @@ public class CarModelModelServiceImpl implements CarModelService {
     private CarModelRepository carModelRepository;
 
     @Override
-    public CarModel saveCarModel(CarModelDto carModelDto) {
+    public CarModel findOrSaveCarModel(CarModelDto carModelDto) {
         CarModel carModel = carModelRepository
                 .findByMakeAndModel(carModelDto.make(), carModelDto.model());
         if(carModel== null){
