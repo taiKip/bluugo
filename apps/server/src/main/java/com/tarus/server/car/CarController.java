@@ -11,17 +11,15 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("api/v1/cars")
+@RequestMapping("api/v1/cars/test")
 @RequiredArgsConstructor
 public class CarController {
-    private final CarService carService;
+
 
     @PostMapping("upload")
     public ResponseEntity<String> uploadCarData(
             @RequestParam(value = "files") MultipartFile[] files) throws IOException {
-        for (MultipartFile file : files) {
-            carService.uploadCarData(file);
-        }
+
         return ResponseEntity.ok("Saved");
     }
 }

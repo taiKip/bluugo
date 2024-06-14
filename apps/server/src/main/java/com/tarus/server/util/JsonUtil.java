@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tarus.server.car.Car;
+import lombok.Data;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,13 +13,13 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
-public class JsonUtil {
+@Data
+public class JsonUtil <T>{
 
-    public static <T extends Object> List<T> parseJSONFile(final MultipartFile file,T t ) throws IOException {
+    public   List<T> parseJSONFile(final MultipartFile file ,TypeReference<List<T>> typeReference) throws IOException {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.readValue(file.getInputStream(), new TypeReference<List<T>>() {
-            });
+            return objectMapper.readValue(file.getInputStream(), typeReference);
         } catch (StreamReadException e) {
 
             throw new RuntimeException(e);

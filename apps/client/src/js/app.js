@@ -7,6 +7,7 @@ const submitButton = document.getElementById("submit-button");
 const tableBody = document.getElementById("table-body");
 
 
+const BASE_URL = "http://localhost:8080/api/v1";
 const state = {
   loading: false,
   error: null,
@@ -145,7 +146,7 @@ function hideSubmitButton() {
 async function fetchData() {
   try {
     state.loading = true;
-    const response = await fetch("http://localhost:8080/api/v1/vehicles");
+    const response = await fetch(`${BASE_URL}/cars`);
 
     if (!response.ok) {
       throw new Error("Network response was not ok");
