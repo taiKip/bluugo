@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tarus.server.car.Car;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
