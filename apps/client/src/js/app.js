@@ -1,21 +1,27 @@
-
 const uploadButton = document.getElementById("upload-button");
 const fileList = document.getElementById("file-list");
 const error = document.getElementById("error");
 const uploadForm = document.getElementById("upload-form");
 const submitButton = document.getElementById("submit-button");
-const tableBody = document.getElementById("table-body");
-
+const searchBar = document.getElementById("search-bar");
+const searchInput = document.getElementById('search-input')
+let tableBody = document.getElementById("table-body");
+let timer;
+const interval = 500;
 
 const BASE_URL = "http://localhost:8080/api/v1";
 const state = {
   loading: false,
   error: null,
+  searchTerm:"",
   fetchedData: null,
   deletedFiles: [],
 };
+window.onload = async () => {
+  fetchData();
+};
 
-
+searchInput.addEventListener('keyup',handleSearch)
 uploadButton.addEventListener("change", handleFileUpload);
 uploadForm.addEventListener("dragenter", handleDragEnter, false);
 uploadForm.addEventListener("dragover", handleDragOver, false);
@@ -23,8 +29,38 @@ uploadForm.addEventListener("dragleave", handleDragLeave, false);
 uploadForm.addEventListener("drop", handleDrop, false);
 uploadForm.addEventListener("submit", handleSubmit);
 
+function handleSearch(event) {
+ clearTimeout(timer)
+  const searchTerm = event.target.value;
+  
+  timer = setTimeout(() => liveSearch( searchTerm), interval);
+ 
+}
+document.addEventListener('DOMContentLoaded', () => {
+  fetchData();
+  
+})
+console.log(state.fetchedData)
+
+const liveSearch = ( searchTerm) => {
+  console.log("Search called")
+  let data = [...state.fetchedData]
+  console.log("Shallow copy::", data)
+
+    const filtered = data.filter(
+      (carModel) =>
+        carModel.modelYear.includes(searchTerm) ||
+        carModel.make.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        carModel.model.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    console.log("Filtered::", state.fetchedData)
+      renderTable(filtered);
+ 
+}
 
 
+
+//file upload
 function handleFileUpload(event) {
   Array.from(uploadButton.files).forEach(fileHandler);
 }
@@ -153,10 +189,13 @@ async function fetchData() {
     }
 
     const data = await response.json();
-    console.log("HELLO")
     state.fetchedData = data;
-    console.log("DATA::" ,data)
-    return data;
+   
+      state.fetchedData = data;
+ 
+
+renderTable(state.fetchedData)
+
   } catch (error) {
     console.error("There was a problem with the fetch operation:", error);
     state.error = error;
@@ -166,23 +205,44 @@ async function fetchData() {
   }
 }
 
-window.onload = async () => {
-  const data = await fetchData();
-  if (data) {
-   // data.forEach(renderTable);
-   console.log("HELLO WORLD")
-   console.log(data)
-  }
+if (state.fetchedData) {
+  console.log(state.fetchedData)
+  console.log(liveSearch(state.fetchedData, "volk"));
+
+}
+const renderTable = (dataItems) => {
+ 
+  tableBody.innerHTML = '';
+  console.log("Render table called::")
+  dataItems.map(dataItem=>renderTableItems(dataItem))
+}
+/**
+ * 
+ * @param {*} dataItem 
+ * @description render table takes in object of type carmodel:{
+ * modelYear:string,
+ * make:string,
+ * model:string,
+ * rejectionPercentage:string,
+ * reasons:string[]
+ * }
+ * @todo fix table using css instead of  extra arr.
+ */
+const renderTableItems = (dataItem) => {
+  const newRow = document.createElement("tr");
+  let reasonsArr;
+  const { modelYear, make, model, rejectionPercentage, reasons } = dataItem;
+  reasonsArr = reasons.length>1?reasons:["","",""]
+  newRow.appendChild(createNewCell(modelYear));
+  newRow.appendChild(createNewCell(make));
+  newRow.appendChild(createNewCell(model));
+  newRow.appendChild(createNewCell(rejectionPercentage));
+    reasonsArr.forEach(reason => newRow.appendChild(createNewCell(reason)));
+  tableBody.appendChild(newRow);
 };
 
-const  renderTable=(dataItem)=> {
-  const newRow = document.createElement("tr");
-
-  Object.values(dataItem).forEach((value) => {
-    const newCell = document.createElement("td");
-    newCell.textContent = value;
-    newRow.appendChild(newCell);
-  });
-
-  tableBody.appendChild(newRow);
-}
+const createNewCell = (value) => {
+  const newCell = document.createElement("td");
+  newCell.textContent = value || "";
+  return newCell;
+};

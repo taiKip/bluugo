@@ -30,16 +30,13 @@ public class CarModelServiceImpl implements CarModelService {
      * @param carModel
      */
     @Transactional
-    private void saveOrUpdateCarModel(CarModel carModel) {
-        Model model = modelService.saveCarModel(carModel.getModel().getName());
-        Make make = makeService.saveCarMake(carModel.getMake().getName());
+    private void saveOrUpdateCarModel(CarModel carModel, Map<String, Model> modelCache, Map<String, Make> makeCache, Map<String, RejectionReason> reasonCache) {
+        Model model = modelCache.computeIfAbsent(carModel.getModel().getName(), name -> modelService.saveCarModel(name));
+        Make make = makeCache.computeIfAbsent(carModel.getMake().getName(), name -> makeService.saveCarMake(name));
 
-        Set<RejectionReason> reasons = new HashSet<>();
-
-        for (RejectionReason reason : carModel.getRejectionReasons()) {
-            RejectionReason rejectionReason = reasonService.saveRejectionReason(reason.getReason());
-            reasons.add(rejectionReason);
-        }
+        Set<RejectionReason> reasons = carModel.getRejectionReasons().stream()
+                .map(reason -> reasonCache.computeIfAbsent(reason.getReason(), reasonService::saveRejectionReason))
+                .collect(Collectors.toSet());
 
         carModel.setModel(model);
         carModel.setMake(make);
@@ -49,13 +46,26 @@ public class CarModelServiceImpl implements CarModelService {
                 .findByModelYearAndMakeAndModel(carModel.getModelYear(), carModel.getMake(), carModel.getModel());
         if (existingCarModel.isPresent()) {
             CarModel carModelDb = existingCarModel.get();
-            carModelDb.setRejectionPercentage(carModel.getRejectionPercentage());
-            carModelDb.setRejectionReasons(reasons);
-            carModelRepository.save(carModelDb);
+            boolean updated = false;
+
+            if (!carModelDb.getRejectionPercentage().equals(carModel.getRejectionPercentage())) {
+                carModelDb.setRejectionPercentage(carModel.getRejectionPercentage());
+                updated = true;
+            }
+
+            if (!carModelDb.getRejectionReasons().equals(reasons)) {
+                carModelDb.setRejectionReasons(reasons);
+                updated = true;
+            }
+
+            if (updated) {
+                carModelRepository.save(carModelDb);
+            }
         } else {
             carModelRepository.save(carModel);
         }
     }
+
 
     /**
      * @param carModels
@@ -63,9 +73,13 @@ public class CarModelServiceImpl implements CarModelService {
      */
     @Transactional
     private void saveOrUpdateCarModels(List<CarModel> carModels) {
+        //cache for batch operations
+        Map<String, Model> modelCache = new HashMap<>();
+        Map<String, Make> makeCache = new HashMap<>();
+        Map<String, RejectionReason> reasonCache = new HashMap<>();
         for (CarModel carModel : carModels) {
 
-            saveOrUpdateCarModel(carModel);
+            saveOrUpdateCarModel(carModel,modelCache,makeCache,reasonCache);
 
         }
 
@@ -118,6 +132,10 @@ public class CarModelServiceImpl implements CarModelService {
         }
     }
 
+    /**
+     *
+     * @returns a list of CarModelResponseDto
+     */
     @Override
     public List<CarModelResponseDto> getAllCarModels() {
         return carModelRepository.findAll().stream()

@@ -4,8 +4,8 @@
   --font-primary: 'Lato', sans-serif;
   --font-secondary: 'Bebas Neue', sans-serif;
   --color-primary: #007aff;
-  --font-title-size:1.8em;
-   --font-body-size:0.9em;
+  --font-title-size:1.4em;
+   --font-body-size:0.8em;
   --color-secondary: #1e1e1e;
   --color-tertiary: #3c3b42;
   --color-highlight: #ff0000;
@@ -69,7 +69,7 @@ span {
 
 .panel {
   background-color: var(--color-tertiary);
-  width: 300px;
+  width: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -212,7 +212,7 @@ button {
 .main {
   background-color: #edf1f3;
   color: var(--color-black);
-  flex: 1;
+  flex: 1.5;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -279,10 +279,11 @@ letter-spacing: 0.8px;
 }
 .table thead{
 height: 45px;
+text-align: left;
 }
 .table th,
 .table td {
-  padding: 0 10px;
+  padding: 3px;
   margin: 0;
 }
 
@@ -290,8 +291,13 @@ height: 45px;
   background-color: var(--color-secondary);
   color: var(--color-white);
 }
-
-.table tr:nth-child(odd) {
+.table tr{
+  width: 100%;
+}
+.table tr:nth-child(odd) td{
+  background-color: var(--color-grey-medium);
+}
+.table tr:nth-child(odd) td:empty{
   background-color: var(--color-grey-medium);
 }
 
