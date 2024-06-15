@@ -21,7 +21,7 @@ public class CarModelController {
             carModelService.saveCarModels(file);
         }
         return ResponseEntity.ok("Saved");
-    }
+    };
     @GetMapping
     public ResponseEntity<List<CarModelResponseDto>> getAllCarModels(){
         return ResponseEntity.ok(carModelService.getAllCarModels());
