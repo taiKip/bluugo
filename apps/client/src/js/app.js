@@ -8,6 +8,8 @@ const searchInput = document.getElementById('search-input')
 let tableBody = document.getElementById("table-body");
 let timer;
 const interval = 500;
+let page;
+
 
 const BASE_URL = "http://localhost:8080/api/v1";
 const state = {
@@ -32,28 +34,32 @@ uploadForm.addEventListener("submit", handleSubmit);
 function handleSearch(event) {
  clearTimeout(timer)
   const searchTerm = event.target.value;
-  
+  console.log("Search Term::",searchTerm)
   timer = setTimeout(() => liveSearch( searchTerm), interval);
  
 }
-document.addEventListener('DOMContentLoaded', () => {
-  fetchData();
-  
-})
-console.log(state.fetchedData)
+
 
 const liveSearch = ( searchTerm) => {
   console.log("Search called")
   let data = [...state.fetchedData]
-  console.log("Shallow copy::", data)
+
 
     const filtered = data.filter(
-      (carModel) =>
-        carModel.modelYear.includes(searchTerm) ||
-        carModel.make.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        carModel.model.toLowerCase().includes(searchTerm.toLowerCase())
+      (carModel) => {
+        console.log(searchTerm.replace(/\s/g, ""));
+        const makeModel = carModel.make + carModel.model;
+        return (
+          carModel.modelYear.includes(searchTerm) ||
+          carModel.make.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          carModel.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          makeModel.toLowerCase().includes(searchTerm.replace(/\s/g, ""))
+        );
+      
+      }
+      
     );
-    console.log("Filtered::", state.fetchedData)
+   
       renderTable(filtered);
  
 }
@@ -156,24 +162,40 @@ function preventDefaults(event) {
 function handleSubmit(event) {
   event.preventDefault();
   const formData = new FormData(uploadForm);
-  const files = formData.getAll("fileInput");
+  const allFiles = formData.getAll("fileInput");
 
-  if (files.length === 0) {
+  if (allFiles.length === 0) {
     uploadButton.style.display = "none";
   }
 
-  files
+ const files =  allFiles
     .filter((file) => !state.deletedFiles.includes(file.name))
-    .forEach(logFileInfo);
-
+  uploadFiles(files);
+console.log("Files::",files)
   hideSubmitButton();
 }
-
-function logFileInfo(file) {
-  console.log(`File name: ${file.name}`);
-  console.log(`File size: ${file.size}`);
-  console.log(`File type: ${file.type}`);
+async function uploadFiles(files) {
+  try {
+     tableBody.innerHTML = "";
+    const formData = new FormData();
+    for (let i = 0; i < files.length; i++){
+      formData.append('files',files[i])
+    }
+    const response = await fetch(`${BASE_URL}/car-models/upload`, {
+      method: 'POST',
+      body:formData
+    })
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+     tableBody.innerHTML = "";
+  } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+  } finally {
+    fetchData();
+  }
 }
+
 
 function hideSubmitButton() {
   submitButton.classList.remove("show");
@@ -182,37 +204,37 @@ function hideSubmitButton() {
 async function fetchData() {
   try {
     state.loading = true;
-    const response = await fetch(`${BASE_URL}/cars`);
+     tableBody.innerHTML = "<span>Loading...</span>";
+    const response = await fetch(`${BASE_URL}/car-models`);
 
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
 
     const data = await response.json();
-    state.fetchedData = data;
    
-      state.fetchedData = data;
- 
+    if (data) {
+      state.loading = false;
+  state.fetchedData = data.content;
+    }
+ tableBody.innerHTML = "";
 
-renderTable(state.fetchedData)
-
+renderTable(state.fetchedData);
   } catch (error) {
     console.error("There was a problem with the fetch operation:", error);
     state.error = error;
     return null;
   } finally {
     state.loading = false;
+   
   }
+  
 }
 
-if (state.fetchedData) {
-  console.log(state.fetchedData)
-  console.log(liveSearch(state.fetchedData, "volk"));
 
-}
 const renderTable = (dataItems) => {
- 
-  tableBody.innerHTML = '';
+  tableBody.innerHTML = "";
+  
   console.log("Render table called::")
   dataItems.map(dataItem=>renderTableItems(dataItem))
 }

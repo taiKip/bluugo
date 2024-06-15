@@ -1,6 +1,7 @@
 package com.tarus.server.carmodel;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.tarus.server.dto.PageResponseDto;
 import com.tarus.server.make.Make;
 import com.tarus.server.make.MakeService;
 import com.tarus.server.model.Model;
@@ -10,6 +11,9 @@ import com.tarus.server.rejectionreason.RejectionReasonService;
 import com.tarus.server.util.JsonUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -137,8 +141,12 @@ public class CarModelServiceImpl implements CarModelService {
      * @returns a list of CarModelResponseDto
      */
     @Override
-    public List<CarModelResponseDto> getAllCarModels() {
-        return carModelRepository.findAll().stream()
+    public PageResponseDto<CarModelResponseDto> getAllCarModels(int pageNo,int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo,pageSize);
+
+        PageResponseDto<CarModelResponseDto> response = new PageResponseDto<>();
+        Page<CarModel> carModelsPage = carModelRepository.findAll(pageable);
+        List<CarModelResponseDto> models = carModelsPage.stream()
                 .map(item -> CarModelResponseDto
                         .builder()
                         .model(item.getModel().getName())
@@ -148,5 +156,12 @@ public class CarModelServiceImpl implements CarModelService {
                         .reasons(item.getRejectionReasons().stream().map(reason -> reason.getReason()).collect(Collectors.toList()))
                         .build())
                 .collect(Collectors.toList());
+        response.setContent(models);
+        response.setPageNo(carModelsPage.getNumber());
+        response.setHasNext(carModelsPage.hasNext());
+        response.setHasPrev(carModelsPage.hasPrevious());
+        response.setTotalItems(carModelsPage.getTotalElements());
+        response.setTotalPages(carModelsPage.getTotalPages());
+        return  response;
     }
 }
