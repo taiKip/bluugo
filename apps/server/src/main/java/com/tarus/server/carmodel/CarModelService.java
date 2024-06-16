@@ -1,5 +1,6 @@
 package com.tarus.server.carmodel;
 
+import com.tarus.server.dto.PageResponseDto;
 import com.tarus.server.rejectionreason.RejectionReason;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,5 +14,5 @@ public interface CarModelService {
 
      void saveCarModels(MultipartFile file);
 
-     List<CarModelResponseDto> getAllCarModels();
+     PageResponseDto<CarModelResponseDto> getAllCarModels(int pageNo,int pageSize);
 }

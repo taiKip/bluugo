@@ -19,6 +19,16 @@
     />
   </head>
   <body class="app">
+    <lottie-player
+      id="app__player"
+      src="https://lottie.host/e0908fea-fc42-410a-8dd0-d54a0636a024/qr4FyEPgxG.json"
+      background="##FFFFFF"
+      speed="1"
+      loop
+      autoplay
+      direction="1"
+      mode="normal"
+    ></lottie-player>
     <header class="header">
       <nav class="navbar">
         <a href="/">
@@ -81,332 +91,46 @@
         <footer class="panel__footer">© 2024 Tarus Victor</footer>
       </section>
       <main class="main">
-       
         <div class="main__toolbar">
-           <h1 class="main__title highlight">Vehicle data</h1>
-          <form class="search" action="">
-            <input type="search" placeholder="Search vehicles here..." required />
-            <button type="submit">Search</button>
-          </form>
+          <h1 class="main__title highlight">Vehicle data</h1>
+          <div class="search" id="search-bar">
+            <input
+              id="search-input"
+              type="search"
+              placeholder="Search vehicles here..."
+              required
+            />
+          </div>
+          <div class="container">
+
+ <div class="main__controls">
+  <button id="prev" >« &nbsp;prev</button>
+  <span id="count">1</span>
+  <button id="next" >next&nbsp; »</button>
+ </div>
+  <div id="main__status-bar"></div>
+          </div>
+         
         </div>
         <div class="main__container">
           <table class="table">
-            <thead >
-            <tr>
-              <th>Year</th>
-              <th>Make</th>
-              <th>Model</th>
-              <th>Rejection%</th>
-              <th>Rejection reason #1</th>
-              <th>Rejection reason #2</th>
-              <th>Rejection reason #3</th>
-            </tr>
+            <thead>
+              <tr>
+                <th>Year</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Rejection%</th>
+                <th>Rejection reason #1</th>
+                <th>Rejection reason #2</th>
+                <th>Rejection reason #3</th>
+              </tr>
             </thead>
-            <tbody id="table-body">
-             
-               <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-               <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-               <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-               <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-               <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-               <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-               <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-               <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-               <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-               <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-               <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>2013</td>
-                <td>Mercedes-Benz</td>
-                <td>CLS</td>
-                <td>0.0</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-
-            </tbody>
+            <tbody id="table-body"></tbody>
           </table>
         </div>
       </main>
     </div>
     <script src="./js/app.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   </body>
 </html>
