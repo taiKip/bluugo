@@ -158,6 +158,7 @@ public class CarModelServiceImpl implements CarModelService {
                 .collect(Collectors.toList());
         response.setContent(models);
         response.setPageNo(carModelsPage.getNumber());
+        response.setPageSize(carModelsPage.getSize());
         response.setHasNext(carModelsPage.hasNext());
         response.setHasPrev(carModelsPage.hasPrevious());
         response.setTotalItems(carModelsPage.getTotalElements());
