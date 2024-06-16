@@ -30,9 +30,7 @@ public class CarModelServiceImpl implements CarModelService {
     private final ModelService modelService;
     private final RejectionReasonService reasonService;
 
-    /**
-     * @param carModel
-     */
+
     @Transactional
     private void saveOrUpdateCarModel(CarModel carModel, Map<String, Model> modelCache, Map<String, Make> makeCache, Map<String, RejectionReason> reasonCache) {
         Model model = modelCache.computeIfAbsent(carModel.getModel().getName(), name -> modelService.saveCarModel(name));
@@ -71,10 +69,7 @@ public class CarModelServiceImpl implements CarModelService {
     }
 
 
-    /**
-     * @param carModels
-     * @desc
-     */
+
     @Transactional
     private void saveOrUpdateCarModels(List<CarModel> carModels) {
         //cache for batch operations
@@ -89,10 +84,7 @@ public class CarModelServiceImpl implements CarModelService {
 
     }
 
-    /**
-     * @param carModelDto
-     * @return
-     */
+
     private Set<RejectionReason> retrieveReasons(CarModelDto carModelDto) {
         Set<RejectionReason> reasons = new HashSet<>();
         for (Field field : carModelDto.getClass().getDeclaredFields()) {
@@ -111,9 +103,7 @@ public class CarModelServiceImpl implements CarModelService {
         return reasons;
     }
 
-    /**
-     * @param file
-     */
+
     @Transactional
     public void saveCarModels(MultipartFile file) {
         JsonUtil<CarModelDto> jsonUtil = new JsonUtil<>();
@@ -136,10 +126,6 @@ public class CarModelServiceImpl implements CarModelService {
         }
     }
 
-    /**
-     *
-     * @returns a list of CarModelResponseDto
-     */
     @Override
     public PageResponseDto<CarModelResponseDto> getAllCarModels(int pageNo,int pageSize) {
         Pageable pageable = PageRequest.of(pageNo,pageSize);

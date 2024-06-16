@@ -3,6 +3,7 @@ services:
   db:
     image: postgres
     restart: unless-stopped
+    container_name: bluugo_db
     environment:
       POSTGRES_DB: vehicleDb
       POSTGRES_USER: postgres
@@ -14,17 +15,33 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - bluugo_network
   client:
     image: nginx:alpine
+    container_name: bluugo-client
     ports:
       - "3000:80"
     volumes:
       - ./apps/client/src:/usr/share/nginx/html:ro
+    networks:
+      - bluugo_network
   server:
     build:
       context: ./apps/server
     ports:
       - "8080:8080"
+    container_name: bluugo-server
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/vehicleDb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - bluugo_network
+networks:
+  bluugo_network:
+
+
