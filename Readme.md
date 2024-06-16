@@ -40,6 +40,6 @@ Go to the project directory
 docker-compose up --build;
 ```
 
-##  Access the Application
+##  Access the Application locally
 
 **Link:** http://localhost:3000/
