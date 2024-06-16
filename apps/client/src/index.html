@@ -19,6 +19,16 @@
     />
   </head>
   <body class="app">
+    <lottie-player
+      id="app__player"
+      src="https://lottie.host/e0908fea-fc42-410a-8dd0-d54a0636a024/qr4FyEPgxG.json"
+      background="##FFFFFF"
+      speed="1"
+      loop
+      autoplay
+      direction="1"
+      mode="normal"
+    ></lottie-player>
     <header class="header">
       <nav class="navbar">
         <a href="/">
@@ -91,6 +101,7 @@
               required
             />
           </div>
+          <div id="main__status-bar"></div>
         </div>
         <div class="main__container">
           <table class="table">
@@ -111,5 +122,6 @@
       </main>
     </div>
     <script src="./js/app.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   </body>
 </html>

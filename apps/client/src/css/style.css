@@ -9,7 +9,9 @@
   --color-secondary: #1e1e1e;
   --color-tertiary: #3c3b42;
   --color-highlight: #ff0000;
-  --color-error: rgb(234, 123, 83);
+  --color-error: #bb2124;
+  --color-success:#22bb33;
+  --color-loading:#f0ad4e;
   --color-white: #ffffff;
   --color-black: #000000;
   --color-grey-light: #eee;
@@ -52,7 +54,19 @@ span {
   background-repeat: no-repeat;
   background-position: center;
 }
-
+#main__status-bar{
+  padding: 3px;
+  
+}
+.loading{
+  color: var(--color-loading);
+}
+.error{
+  color: var(--color-error);
+}
+.success{
+  color: var(--color-success);
+}
 .app {
   font-family: var(--font-primary);
   color: var(--color-white);
@@ -66,7 +80,13 @@ span {
   display: flex;
   height: calc(100vh - 45px);
 }
-
+#app__player{
+  width: 100vw;
+   height:100vh;
+   position:absolute;
+   z-index: 10000;
+   display:none;
+}
 .panel {
   background-color: var(--color-tertiary);
   width: 250px;
