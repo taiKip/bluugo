@@ -1,5 +1,5 @@
 
-# Bluugo JSON processor
+#JSON processor
 
 A web application that allows a user to upload json file ,and stores it in a postgresql database
 
