@@ -31,13 +31,17 @@ A brief description of what this project does and who it's for
 **Prerequisites:** Docker, Docker compose
 
 ```bash
-  cd bluugo
+  git https://github.com/taiKip/bluugo.git
 ```
 
 Go to the project directory
 
 ```bash
-docker-compose up --build;
+  cd bluugo
+```
+
+```bash
+ docker-compose up --build;
 ```
 
 ##  Access the Application locally
